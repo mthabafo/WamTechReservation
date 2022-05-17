@@ -19,12 +19,21 @@ namespace WamTechReservation.Controllers
         }
 
 
+        /// <summary>
+        /// Lists all current reservations 
+        /// </summary>
+        /// <returns>A list of reservations</returns>
         [HttpGet]
         public async Task<IActionResult> Index() 
         {
             return View(await _reservationsDbContext.Reservations.ToListAsync());
         }
 
+
+        /// <summary>
+        /// Displays a view for creating a reservation
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Create()
         {
@@ -47,6 +56,12 @@ namespace WamTechReservation.Controllers
                 return true;
         }
 
+
+        /// <summary>
+        /// Creates a new reservation and post to the database
+        /// </summary>
+        /// <param name="reservation">reservation</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Create(Reservation reservation)
         {
@@ -66,12 +81,26 @@ namespace WamTechReservation.Controllers
 
             return View();
         }
+
+
+        /// <summary>
+        /// Displays a view for updating a reservation
+        /// </summary>
+        /// <param name="id">Reservation Id</param>
+        /// <returns>A view for updating a reservation</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             return View(await _reservationsDbContext.Reservations.Where(x => x.Id == id).FirstOrDefaultAsync());
         }
 
+
+        /// <summary>
+        /// Updates a reservation and post to the database
+        /// </summary>
+        /// <param name="id">Reservation Id</param>
+        /// <param name="reservation">Reservation</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Edit(int id, Reservation reservation)
         {
@@ -91,13 +120,25 @@ namespace WamTechReservation.Controllers
             return View(reservation);
         }
 
+
+        /// <summary>
+        /// Displays a view for deleting a reservation
+        /// </summary>
+        /// <param name="id">Reservation Id</param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
             return View(await _reservationsDbContext.Reservations.Where(x => x.Id == id).FirstOrDefaultAsync());
         }
 
-        // POST: ReservationsController/Delete/5
+
+        /// <summary>
+        /// Deletes a selected reservation
+        /// </summary>
+        /// <param name="id">Reservation Id</param>
+        /// <param name="reservation">Reservation</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Delete(int id, Reservation reservation)
         {
