@@ -9,8 +9,12 @@ using WamTechReservation.Models;
 
 namespace WamTechReservation.Controllers
 {
+    /// <summary>
+    /// Performs CRUD operations for reservations
+    /// </summary>
     public class ReservationsController : Controller
     {
+        // Stores Instance of ReservationDbContext
         private ReservationsDbContext _reservationsDbContext;
 
         public ReservationsController(ReservationsDbContext reservationsDbContext)
@@ -40,22 +44,6 @@ namespace WamTechReservation.Controllers
             return View();
         }
 
-        public bool ValidateDates(Reservation reservation) 
-        {
-            if (reservation.StartDate <= DateTime.Today)
-            {
-                ModelState.AddModelError("StartDate", "Date must be a future date");
-                return false;
-            }
-            else if (reservation.EndDate < reservation.StartDate)
-            {
-                ModelState.AddModelError("EndDate", "Date cannot be less than StartDate");
-                return false;
-            }
-            else
-                return true;
-        }
-
 
         /// <summary>
         /// Creates a new reservation and post to the database
@@ -71,6 +59,7 @@ namespace WamTechReservation.Controllers
                 {
                     _reservationsDbContext.Add(reservation);
                     await _reservationsDbContext.SaveChangesAsync();
+                    TempData["AlertMessage"] = "Reservation Created Successfully..!";
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
@@ -110,6 +99,7 @@ namespace WamTechReservation.Controllers
                 {
                     _reservationsDbContext.Entry(reservation).State = EntityState.Modified;
                     await _reservationsDbContext.SaveChangesAsync();
+                    TempData["AlertMessage"] = "Reservation Updated Successfully..!";
                     return RedirectToAction("Index");
                 }
                 catch
@@ -118,6 +108,28 @@ namespace WamTechReservation.Controllers
                 }
             }
             return View(reservation);
+        }
+
+
+        /// <summary>
+        /// Validate Start, End Dates and displays the error message in the fields
+        /// </summary>
+        /// <param name="reservation">Reservation</param>
+        /// <returns>True is dates are valid and false if not</returns>
+        public bool ValidateDates(Reservation reservation)
+        {
+            if (reservation.StartDate <= DateTime.Today)
+            {
+                ModelState.AddModelError("StartDate", "Date must be a future date");
+                return false;
+            }
+            else if (reservation.EndDate < reservation.StartDate)
+            {
+                ModelState.AddModelError("EndDate", "Date cannot be less than StartDate");
+                return false;
+            }
+            else
+                return true;
         }
 
 
@@ -150,6 +162,7 @@ namespace WamTechReservation.Controllers
                 {
                     _reservationsDbContext.Remove(currentReservation);
                     await _reservationsDbContext.SaveChangesAsync();
+                    TempData["AlertMessage"] = "Reservation Deleted Successfully..!";
                     return RedirectToAction("Index");
                 }                  
             }

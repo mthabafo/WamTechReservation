@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace WamTechReservation.Models
 {
+    /// <summary>
+    /// Entities for a reservation
+    /// </summary>
+    
     [Table(name: "Reservations")]
     public class Reservation
     {
@@ -26,11 +30,9 @@ namespace WamTechReservation.Models
         public string Type { get; set; }
 
         [Required(ErrorMessage = "Start date required")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime StartDate { get; set; }
 
         [Required(ErrorMessage = "End date required")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime EndDate { get; set; }
     }
 }

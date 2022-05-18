@@ -2,6 +2,12 @@
 
 <h2>Reservations</h2>
 <hr />
+@if(TempData["AlertMessage"] != null) 
+{
+    <div class="alert-success">
+        <strong>Success!</strong> @TempData["AlertMessage"]
+    </div>
+}
 <div class="row p-3 mb-2 bg-light text-dark">
     <div class="col-md-12">
         <table class="table table-hover table-dark">
